@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinGraph — Family Tree & Relationship Analysis System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand-logo" onclick="switchTab('home')">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="5" r="3"/>
+                        <circle cx="5" cy="19" r="3"/>
+                        <circle cx="19" cy="19" r="3"/>
+                        <path d="M12 8v4m0 0l-5 4m5-4l5 4"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">KinGraph</span>
+                    <span class="brand-badge">C Core DSA</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <button class="nav-btn active" data-tab="home" onclick="switchTab('home')">Overview</button>
+                <button class="nav-btn" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+                <button class="nav-btn" data-tab="tree" onclick="switchTab('tree')">Tree Studio</button>
+                <button class="nav-btn" data-tab="explorer" onclick="switchTab('explorer')">Kinship Explorer</button>
+                <button class="nav-btn" data-tab="dsa" onclick="switchTab('dsa')">DSA Architecture</button>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="btn btn-secondary btn-sm" onclick="openAddMemberModal()">
+                    <span class="btn-icon">+</span> Member
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="openConnectModal()">
+                    <span class="btn-icon">⚡</span> Connect
+                </button>
+                <div class="server-status" id="serverStatusIndicator" title="C Backend Connected">
+                    <span class="status-dot"></span>
+                    <span class="status-label">C Server: Online</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+
+        <!-- ================= TAB 1: HOME / HERO ================= -->
+        <section id="tab-home" class="tab-pane active">
+            <div class="hero-section">
+                <div class="hero-badge">
+                    <span class="pulse-icon"></span>
+                    <span>College DSA Capstone &bull; High-Performance C Engine</span>
+                </div>
+                <h1 class="hero-title">
+                    Family Tree Modeling & Kinship Analysis<br>
+                    <span class="gradient-text">Engineered Purely in C</span>
+                </h1>
+                <p class="hero-subtitle">
+                    KinGraph replaces rigid hierarchical trees with directed graph theory.
+                    Powered by manual <strong>Adjacency Lists</strong>, <strong>Chained Hash Maps</strong>, 
+                    <strong>BFS Generations</strong>, <strong>Iterative DFS Ancestry</strong>, and <strong>Cycle Detection</strong>.
+                </p>
+                <div class="hero-cta-group">
+                    <button class="btn btn-primary btn-lg" onclick="switchTab('tree')">
+                        Launch Interactive Tree
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                    <button class="btn btn-secondary btn-lg" onclick="switchTab('explorer')">
+                        Analyze Relationships
+                    </button>
+                    <button class="btn btn-ghost btn-lg" onclick="switchTab('dsa')">
+                        View DSA Proofs &rarr;
+                    </button>
+                </div>
+
+                <!-- Interactive Hero Graph Preview Card -->
+                <div class="hero-preview-card">
+                    <div class="preview-header">
+                        <div class="preview-dots"><span></span><span></span><span></span></div>
+                        <span class="preview-title">Live C Graph Visualizer &bull; Active Topology</span>
+                        <span class="preview-status" id="heroNodeCount">15 Vertices &bull; 16 Edges</span>
+                    </div>
+                    <div class="preview-body" id="heroGraphPreview">
+                        <svg id="heroSvg" width="100%" height="240"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Graph-Based Section -->
+            <div class="section-container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Graph Theory vs. Naive Trees</span>
+                    <h2 class="section-title">Why Kinship Requires Directed Graphs</h2>
+                    <p class="section-desc">Traditional binary or n-ary trees break when confronted with real-world genealogy.</p>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="feature-card">
+                        <div class="card-icon indigo">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        </div>
+                        <h3>Dual-Parent Convergence</h3>
+                        <p>Every person has two biological parents. In strict trees, nodes can have only one parent. KinGraph models this accurately as a Directed Acyclic Graph (DAG) with convergent in-degree edges.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="card-icon amber">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 12l-4-4-4 4M12 16V8"/></svg>
+                        </div>
+                        <h3>Cycle Detection & Paradox Prevention</h3>
+                        <p>Biological ancestry is strictly chronological. KinGraph uses iterative DFS cycle checks to mathematically prohibit paradoxical relationships where a descendant is declared an ancestor of their progenitor.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="card-icon emerald">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3>Orthogonal Spouse Modeling</h3>
+                        <p>Marriage is a bidirectional partnership, not an ancestral lineage. KinGraph decouples spouse adjacency lists from parent-child directed edges, ensuring clean generation alignment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DSA Highlights Grid -->
+            <div class="section-container dark-surface">
+                <div class="section-header text-center">
+                    <span class="section-tag">Core Data Structures</span>
+                    <h2 class="section-title">Manual C Implementations</h2>
+                    <p class="section-desc">Zero standard template libraries, zero external frameworks. Built from scratch with pointers and dynamic memory.</p>
+                </div>
+
+                <div class="grid grid-4">
+                    <div class="dsa-mini-card">
+                        <div class="dsa-code">struct GraphVertex</div>
+                        <h4>Adjacency List Graph</h4>
+                        <p>Each person stored once. Linked list of incoming (parent) and outgoing (child) edges.</p>
+                        <span class="complexity-badge">O(V + E) Space</span>
+                    </div>
+
+                    <div class="dsa-mini-card">
+                        <div class="dsa-code">struct HashMap</div>
+                        <h4>Chained Hash Table</h4>
+                        <p>DJB2 hashing algorithm with linked list collision resolution for instant ID lookups.</p>
+                        <span class="complexity-badge">O(1) Avg Lookup</span>
+                    </div>
+
+                    <div class="dsa-mini-card">
+                        <div class="dsa-code">struct Queue</div>
+                        <h4>FIFO Queue (BFS)</h4>
+                        <p>Dynamic linked list queue powering generation classification and shortest kinship paths.</p>
+                        <span class="complexity-badge">O(1) Enqueue / Deq</span>
+                    </div>
+
+                    <div class="dsa-mini-card">
+                        <div class="dsa-code">struct Stack</div>
+                        <h4>LIFO Stack (DFS)</h4>
+                        <p>Dynamic linked list stack driving iterative ancestry tracing and cycle detection.</p>
+                        <span class="complexity-badge">O(1) Push / Pop</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: DASHBOARD ================= -->
+        <section id="tab-dashboard" class="tab-pane">
+            <div class="dashboard-container">
+                <!-- Header with Quick Action Bar -->
+                <div class="dashboard-header">
+                    <div>
+                        <h2 class="dash-title">Family Tree Dashboard</h2>
+                        <p class="dash-subtitle">Overview of vertices, edges, generation levels, and memory distribution.</p>
+                    </div>
+                    <div class="dash-controls">
+                        <button class="btn btn-secondary btn-sm" onclick="saveToDisk()">
+                            <span>💾</span> Save to Disk
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="loadFromDisk()">
+                            <span>📂</span> Reload Files
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="resetToSample()">
+                            <span>🔄</span> Reset Sample
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="openAddMemberModal()">
+                            <span>+</span> Add Member
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Counters -->
+                <div class="grid grid-4 stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon purple">👥</div>
+                        <div class="stat-data">
+                            <span class="stat-value" id="statMembers">--</span>
+                            <span class="stat-label">Total Family Members</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">🌳</div>
+                        <div class="stat-data">
+                            <span class="stat-value" id="statGenerations">--</span>
+                            <span class="stat-label">Recorded Generations</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon amber">🔗</div>
+                        <div class="stat-data">
+                            <span class="stat-value" id="statEdges">--</span>
+                            <span class="stat-label">Parent-Child Edges</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon rose">💍</div>
+                        <div class="stat-data">
+                            <span class="stat-value" id="statSpouses">--</span>
+                            <span class="stat-label">Spouse Unions</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hash Table Live Telemetry Card -->
+                <div class="card telemetry-card">
+                    <div class="card-header">
+                        <div class="flex-between">
+                            <div>
+                                <h3 class="card-title">C Hash Table Telemetry</h3>
+                                <p class="card-desc">Real-time performance and collision monitoring of the custom hash table.</p>
+                            </div>
+                            <span class="badge badge-success">Separate Chaining Active</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="telemetry-grid">
+                            <div class="tel-item">
+                                <span class="tel-label">Bucket Capacity</span>
+                                <span class="tel-val" id="telCapacity">127</span>
+                            </div>
+                            <div class="tel-item">
+                                <span class="tel-label">Total Elements</span>
+                                <span class="tel-val" id="telSize">--</span>
+                            </div>
+                            <div class="tel-item">
+                                <span class="tel-label">Collisions Encountered</span>
+                                <span class="tel-val" id="telCollisions">--</span>
+                            </div>
+                            <div class="tel-item">
+                                <span class="tel-label">Max Chain Length</span>
+                                <span class="tel-val" id="telMaxChain">--</span>
+                            </div>
+                            <div class="tel-item">
+                                <span class="tel-label">Load Factor</span>
+                                <span class="tel-val" id="telLoadFactor">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Members Roster Table & Search -->
+                <div class="card roster-card">
+                    <div class="card-header flex-between">
+                        <div>
+                            <h3 class="card-title">Family Member Roster</h3>
+                            <p class="card-desc">Search, inspect, edit, or remove members from the graph.</p>
+                        </div>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="rosterSearch" placeholder="Search by name or ID..." oninput="filterRoster()">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="roster-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Birth & Death</th>
+                                    <th>Gen Level</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rosterTableBody">
+                                <tr><td colspan="7" class="text-center text-muted">Loading members from C server...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: TREE STUDIO ================= -->
+        <section id="tab-tree" class="tab-pane">
+            <div class="tree-studio-layout">
+                <!-- SVG Canvas Container -->
+                <div class="tree-canvas-panel">
+                    <!-- Floating Toolbar -->
+                    <div class="tree-toolbar">
+                        <div class="toolbar-group">
+                            <button class="tool-btn" onclick="zoomIn()" title="Zoom In">+</button>
+                            <button class="tool-btn" onclick="zoomOut()" title="Zoom Out">&minus;</button>
+                            <button class="tool-btn" onclick="resetZoom()" title="Reset View">100%</button>
+                            <button class="tool-btn" onclick="fitView()" title="Fit Tree to View">Fit</button>
+                        </div>
+                        <div class="toolbar-divider"></div>
+                        <div class="toolbar-group">
+                            <button class="tool-btn highlight-btn" id="btnHlAncestors" onclick="toggleHighlightAncestors()" disabled>
+                                <span>▲</span> Ancestors
+                            </button>
+                            <button class="tool-btn highlight-btn" id="btnHlDescendants" onclick="toggleHighlightDescendants()" disabled>
+                                <span>▼</span> Descendants
+                            </button>
+                            <button class="tool-btn" onclick="clearTreeSelection()" title="Clear Selection">
+                                Clear Highlight
+                            </button>
+                        </div>
+                        <div class="toolbar-divider"></div>
+                        <div class="toolbar-group">
+                            <span class="legend-item"><span class="legend-color cyan"></span> Selected</span>
+                            <span class="legend-item"><span class="legend-color emerald"></span> Ancestors</span>
+                            <span class="legend-item"><span class="legend-color amber"></span> Descendants</span>
+                            <span class="legend-item"><span class="legend-color gold-line"></span> Spouse</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive SVG Canvas with Mouse Pan and Wheel Zoom -->
+                    <div class="svg-viewport" id="svgViewport">
+                        <svg id="familyTreeSvg" width="100%" height="100%">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                    <polygon points="0 0, 8 3, 0 6" fill="#6366f1"/>
+                                </marker>
+                                <marker id="arrowhead-ancestor" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                    <polygon points="0 0, 8 3, 0 6" fill="#10b981"/>
+                                </marker>
+                                <marker id="arrowhead-descendant" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                    <polygon points="0 0, 8 3, 0 6" fill="#f59e0b"/>
+                                </marker>
+                            </defs>
+                            <g id="treeGroup"></g>
+                        </svg>
+                    </div>
+
+                    <div class="canvas-hint">
+                        <span>💡 Tip: Click and drag canvas to pan &bull; Scroll to zoom &bull; Click any member node to inspect</span>
+                    </div>
+                </div>
+
+                <!-- Inspector Side Panel -->
+                <aside class="tree-inspector-panel" id="treeInspector">
+                    <div class="inspector-empty" id="inspectorEmpty">
+                        <div class="empty-icon">👆</div>
+                        <h3>No Member Selected</h3>
+                        <p>Select any person card in the tree to inspect their generation, parent links, children, and trigger DFS/BFS operations.</p>
+                    </div>
+
+                    <div class="inspector-content" id="inspectorContent" style="display:none;">
+                        <div class="inspector-header">
+                            <div class="member-avatar" id="inspAvatar">?</div>
+                            <div class="member-headline">
+                                <h3 id="inspName">--</h3>
+                                <div class="badge-row">
+                                    <span class="badge badge-primary" id="inspId">--</span>
+                                    <span class="badge badge-purple" id="inspGen">Gen 1</span>
+                                    <span class="badge" id="inspGender">Male</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="inspector-bio" id="inspBio">--</div>
+
+                        <div class="inspector-meta-grid">
+                            <div class="meta-box">
+                                <span class="meta-title">Birth Year</span>
+                                <span class="meta-value" id="inspBirth">--</span>
+                            </div>
+                            <div class="meta-box">
+                                <span class="meta-title">Status</span>
+                                <span class="meta-value" id="inspStatus">Living</span>
+                            </div>
+                        </div>
+
+                        <!-- Relatives Breakdown -->
+                        <div class="insp-section">
+                            <h4 class="insp-section-title">Parents (<span id="inspParentCount">0</span>)</h4>
+                            <div class="pill-list" id="inspParentsList">None recorded</div>
+                        </div>
+
+                        <div class="insp-section">
+                            <h4 class="insp-section-title">Spouse (<span id="inspSpouseCount">0</span>)</h4>
+                            <div class="pill-list" id="inspSpouseList">None recorded</div>
+                        </div>
+
+                        <div class="insp-section">
+                            <h4 class="insp-section-title">Children (<span id="inspChildCount">0</span>)</h4>
+                            <div class="pill-list" id="inspChildrenList">None recorded</div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="insp-actions">
+                            <button class="btn btn-emerald btn-sm w-full" onclick="inspectAncestorsDFS()">
+                                <span>▲</span> Trace Ancestors (Iterative DFS)
+                            </button>
+                            <button class="btn btn-amber btn-sm w-full" onclick="inspectDescendantsBFS()">
+                                <span>▼</span> Trace Descendants (Queue BFS)
+                            </button>
+                            <button class="btn btn-secondary btn-sm w-full" onclick="exploreWithSelected()">
+                                <span>🔍</span> Explore Kinship From Here
+                            </button>
+                            <div class="flex-row gap-2 mt-2">
+                                <button class="btn btn-ghost btn-sm flex-1" onclick="openEditSelectedModal()">Edit</button>
+                                <button class="btn btn-danger btn-sm flex-1" onclick="deleteSelectedPerson()">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: RELATIONSHIP EXPLORER ================= -->
+        <section id="tab-explorer" class="tab-pane">
+            <div class="section-container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Graph Path & Kinship Classifier</span>
+                    <h2 class="section-title">Analyze Relationship Between Two People</h2>
+                    <p class="section-desc">KinGraph uses BFS shortest-path exploration and Lowest Common Ancestor (LCA) intersection in C.</p>
+                </div>
+
+                <!-- Selection Card -->
+                <div class="card explorer-card">
+                    <div class="card-body">
+                        <div class="explorer-selector-row">
+                            <div class="person-select-box">
+                                <label for="selectPersonA">Person A (Origin)</label>
+                                <select id="selectPersonA" class="form-select">
+                                    <option value="">-- Choose Person A --</option>
+                                </select>
+                            </div>
+
+                            <div class="rel-swap-btn" onclick="swapExplorerPeople()" title="Swap People">
+                                ⇄
+                            </div>
+
+                            <div class="person-select-box">
+                                <label for="selectPersonB">Person B (Target)</label>
+                                <select id="selectPersonB" class="form-select">
+                                    <option value="">-- Choose Person B --</option>
+                                </select>
+                            </div>
+
+                            <div class="person-select-action">
+                                <button class="btn btn-primary btn-lg" onclick="analyzeRelationship()">
+                                    <span>⚡</span> Analyze Kinship
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Results Panel -->
+                <div id="explorerResultCard" class="card explorer-result-card" style="display:none;">
+                    <div class="card-header flex-between">
+                        <div>
+                            <span class="section-tag">Relationship Verdict</span>
+                            <h3 class="card-title text-2xl" id="resRelationshipTitle">--</h3>
+                        </div>
+                        <div class="badge badge-purple" id="resDegreeBadge">-- Degrees of Separation</div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Connecting Path Visualization -->
+                        <div class="analysis-section">
+                            <h4 class="analysis-subheading">Connecting Graph Path (Shortest Unweighted BFS)</h4>
+                            <div class="path-timeline" id="resPathTimeline">
+                                <!-- Steps populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Common Ancestors Section -->
+                        <div class="analysis-section">
+                            <h4 class="analysis-subheading">Common Ancestors (LCA Intersection)</h4>
+                            <div class="grid grid-3" id="resCommonAncestorsGrid">
+                                <!-- LCA cards populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 5: DSA ARCHITECTURE & LIVE LAB ================= -->
+        <section id="tab-dsa" class="tab-pane">
+            <div class="section-container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Academic DSA Documentation</span>
+                    <h2 class="section-title">Data Structures & Algorithm Proofs</h2>
+                    <p class="section-desc">Detailed verification of the C algorithms powering KinGraph.</p>
+                </div>
+
+                <!-- Live Trace Console -->
+                <div class="card dsa-console-card">
+                    <div class="card-header flex-between">
+                        <div>
+                            <h3 class="card-title">Live C Traversal Trace Inspector</h3>
+                            <p class="card-desc">Real-time Stack and Queue execution trace recorded during latest backend operation.</p>
+                        </div>
+                        <span class="badge badge-info" id="traceAlgoName">No Traversal Executed Yet</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="console-box" id="dsaTraceLog">
+                            <div class="log-line text-muted">// Run an ancestor DFS or descendant BFS traversal to view step-by-step queue/stack logs...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DSA Cards Grid -->
+                <div class="grid grid-2 mt-6">
+                    <!-- Graph Adjacency List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon indigo">G</div>
+                            <h3 class="card-title">1. Graph with Adjacency Lists</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Definition:</strong> <code>GraphVertex</code> represents vertices; directed <code>Edge</code> structs represent parent-to-child links. Spouses are tracked in a dedicated adjacency list.</p>
+                            <ul class="dsa-points">
+                                <li><strong>Single Instance:</strong> Each person is allocated exactly once in heap memory.</li>
+                                <li><strong>Bidirectional Reachability:</strong> Each vertex maintains outgoing <code>children</code> and incoming <code>parents</code> for $O(\text{deg})$ parent/child lookups.</li>
+                                <li><strong>Memory Complexity:</strong> $O(V + E)$ where $V = \text{people}, E = \text{relationships}$.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Hash Table Chaining -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon emerald">H</div>
+                            <h3 class="card-title">2. Hash Table with Separate Chaining</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Definition:</strong> Fixed-size bucket array with linked list chaining to resolve collisions on string IDs (e.g. <code>P01</code>, <code>P02</code>).</p>
+                            <ul class="dsa-points">
+                                <li><strong>Hash Function:</strong> <code>DJB2</code> algorithm: <code>hash = ((hash &lt;&lt; 5) + hash) + c</code>.</li>
+                                <li><strong>Time Complexity:</strong> $O(1)$ average case for lookup, insertion, and deletion.</li>
+                                <li><strong>Consistency:</strong> When a vertex is removed, it is cleanly extracted from the collision chain.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- FIFO Queue & BFS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon blue">Q</div>
+                            <h3 class="card-title">3. Dynamic FIFO Queue & BFS</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Definition:</strong> Pointer-based FIFO queue with $O(1)$ enqueue and dequeue operations.</p>
+                            <ul class="dsa-points">
+                                <li><strong>Generation Leveling:</strong> Roots are identified ($\text{in\_degree} = 0$), enqueued at level 1, and children assigned $\text{gen} + 1$ level by level.</li>
+                                <li><strong>Shortest Path:</strong> Finds the minimum unweighted degree of separation between any two individuals in $O(V + E)$.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- LIFO Stack & DFS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon amber">S</div>
+                            <h3 class="card-title">4. Dynamic LIFO Stack & Iterative DFS</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Definition:</strong> Pointer-based LIFO stack with $O(1)$ push and pop operations.</p>
+                            <ul class="dsa-points">
+                                <li><strong>Iterative Ancestry:</strong> Climbs parent pointers without risking recursion call-stack overflow on deep lineages.</li>
+                                <li><strong>Cycle Detection:</strong> Verifies that a target child cannot reach the candidate parent before creating a directed edge.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- Modal: Add Person -->
+    <div class="modal-overlay" id="addMemberModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Add Family Member</h3>
+                <button class="modal-close" onclick="closeModal('addMemberModal')">&times;</button>
+            </div>
+            <form id="addMemberForm" onsubmit="handleAddMemberSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="newId">Unique ID <span class="required">*</span></label>
+                        <input type="text" id="newId" placeholder="e.g. P16" required>
+                    </div>
+                    <div class="form-group flex-2">
+                        <label for="newName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="newName" placeholder="e.g. Evelyn Sterling" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="newGender">Gender</label>
+                        <select id="newGender" class="form-select">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="newBirth">Birth Year</label>
+                        <input type="number" id="newBirth" placeholder="e.g. 1999" min="1500" max="2030">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="newDeath">Death Year</label>
+                        <input type="number" id="newDeath" placeholder="0 if living" min="1500" max="2030">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="newBio">Biography / Notes</label>
+                    <textarea id="newBio" rows="2" placeholder="Occupation, achievements, notes..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="newParent">Initial Parent (Optional)</label>
+                        <select id="newParent" class="form-select">
+                            <option value="">-- No Parent (Root/Founder) --</option>
+                        </select>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="newSpouse">Initial Spouse (Optional)</label>
+                        <select id="newSpouse" class="form-select">
+                            <option value="">-- No Spouse --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addMemberModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Connect Relationship -->
+    <div class="modal-overlay" id="connectModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Connect Family Relationship</h3>
+                <button class="modal-close" onclick="closeModal('connectModal')">&times;</button>
+            </div>
+            <form id="connectForm" onsubmit="handleConnectSubmit(event)">
+                <div class="form-group">
+                    <label>Relationship Type</label>
+                    <div class="radio-toggle-group">
+                        <label class="radio-toggle">
+                            <input type="radio" name="relType" value="parent_child" checked onchange="updateConnectFormLabels()">
+                            <span>Parent &rarr; Child (Directed)</span>
+                        </label>
+                        <label class="radio-toggle">
+                            <input type="radio" name="relType" value="spouse" onchange="updateConnectFormLabels()">
+                            <span>Spouse &harr; Spouse (Mutual)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label id="lblConnectA" for="connectPersonA">Parent</label>
+                        <select id="connectPersonA" class="form-select" required></select>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label id="lblConnectB" for="connectPersonB">Child</label>
+                        <select id="connectPersonB" class="form-select" required></select>
+                    </div>
+                </div>
+
+                <div class="cycle-warning-box" id="connectWarning" style="display:none;"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('connectModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Connection</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Edit Person -->
+    <div class="modal-overlay" id="editMemberModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Edit Family Member</h3>
+                <button class="modal-close" onclick="closeModal('editMemberModal')">&times;</button>
+            </div>
+            <form id="editMemberForm" onsubmit="handleEditMemberSubmit(event)">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label>Member ID (Immutable Key)</label>
+                    <input type="text" id="editIdDisplay" disabled class="disabled-input">
+                </div>
+                <div class="form-group">
+                    <label for="editName">Full Name</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="editGender">Gender</label>
+                        <select id="editGender" class="form-select">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="editBirth">Birth Year</label>
+                        <input type="number" id="editBirth">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="editDeath">Death Year</label>
+                        <input type="number" id="editDeath">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editBio">Biography</label>
+                    <textarea id="editBio" rows="2"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editMemberModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
